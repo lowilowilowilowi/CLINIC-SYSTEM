@@ -70,7 +70,7 @@
 
         <div style="margin-bottom: 15px;">
             <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a4c8c;">Consultation Fee / Amount (₱):</label>
-            <input type="number" step="0.01" name="amount" value="{{ old('amount', 500.00) }}" style="width: 100%; padding: 8px; border: 2px solid #4a4c8c; border-radius: 4px;">
+            <input type="number" step="0.01" name="amount" value="{{ old('amount') }}" placeholder="Leave blank if unknown" style="width: 100%; padding: 8px; border: 2px solid #4a4c8c; border-radius: 4px;">
         </div>
 
         <div style="margin-bottom: 20px;">

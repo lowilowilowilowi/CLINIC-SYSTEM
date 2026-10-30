@@ -41,6 +41,7 @@ class Invoice extends Model
 
     protected $fillable = [
         'patient_id',
+        'appointment_id',
         'amount',
         'status',
         'due_date',

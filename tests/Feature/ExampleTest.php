@@ -149,6 +149,40 @@ class ExampleTest extends TestCase
             ->assertSee('650');
     }
 
+    public function test_unpriced_invoice_displays_dash_and_can_remain_blank(): void
+    {
+        $patient = Patient::create([
+            'first_name' => 'Blank',
+            'last_name' => 'Invoice',
+            'phone' => '09171234567',
+        ]);
+        $invoice = Invoice::create([
+            'patient_id' => $patient->id,
+            'amount' => null,
+            'status' => 'Unpaid',
+            'due_date' => '2026-11-10',
+        ]);
+
+        $this->get(route('billing.index'))
+            ->assertOk()
+            ->assertSee('<td style="padding: 12px 15px;">-</td>', false);
+
+        $this->get(route('billing.edit', $invoice->id))
+            ->assertOk()
+            ->assertSee('name="amount" value=""', false);
+
+        $this->put(route('billing.update', $invoice->id), [
+            'amount' => '',
+            'status' => 'Unpaid',
+        ])->assertRedirect(route('billing.index'));
+
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoice->id,
+            'amount' => null,
+            'status' => 'Unpaid',
+        ]);
+    }
+
     public function test_recording_payment_is_included_in_invoice_history(): void
     {
         $patient = Patient::create([
@@ -306,6 +340,11 @@ class ExampleTest extends TestCase
         $this->assertDatabaseHas('appointments', [
             'id' => $appointment->id,
             'status' => 'Completed',
+        ]);
+        $this->assertDatabaseHas('invoices', [
+            'appointment_id' => $appointment->id,
+            'status' => 'Unpaid',
+            'amount' => null,
         ]);
     }
 

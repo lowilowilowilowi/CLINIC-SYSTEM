@@ -72,7 +72,7 @@ class BillingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'nullable|numeric|min:0',
             'status' => 'required|string|in:Unpaid,Paid',
         ]);
 

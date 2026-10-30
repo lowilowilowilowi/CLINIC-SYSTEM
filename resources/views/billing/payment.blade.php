@@ -14,7 +14,7 @@
                     <option value="">-- Choose Invoice --</option>
                     @foreach($unpaidInvoices as $invoice)
                         <option value="{{ $invoice->id }}">
-                            I-{{ str_pad($invoice->id, 3, '0', STR_PAD_LEFT) }} - {{ strtoupper($invoice->patient->first_name ?? '') }} {{ strtoupper($invoice->patient->last_name ?? '') }} (₱{{ number_format($invoice->amount, 2) }})
+                            I-{{ str_pad($invoice->id, 3, '0', STR_PAD_LEFT) }} - {{ strtoupper($invoice->patient->first_name ?? '') }} {{ strtoupper($invoice->patient->last_name ?? '') }} ({{ $invoice->amount === null ? '-' : '₱' . number_format($invoice->amount, 2) }})
                         </option>
                     @endforeach
                 </select>

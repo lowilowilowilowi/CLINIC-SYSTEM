@@ -113,12 +113,10 @@ class AppointmentController extends Controller
         $appointment->update($validated);
 
         if ($originalStatus !== 'Completed' && $appointment->status === 'Completed') {
-            $invoiceAmount = $request->input('amount') ?? ($appointment->doctor->fee ?? 500.00);
-
             Invoice::create([
                 'patient_id' => $appointment->patient_id,
                 'appointment_id' => $appointment->id,
-                'amount' => $invoiceAmount,
+                'amount' => $request->input('amount'),
                 'status' => 'Unpaid',
                 'due_date' => now()->addDays(7),
             ]);

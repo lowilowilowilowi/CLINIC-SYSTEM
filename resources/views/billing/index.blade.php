@@ -30,7 +30,7 @@
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 12px 15px; font-weight: bold; color: #4a4c8c;">I-{{ str_pad($invoice->id, 3, '0', STR_PAD_LEFT) }}</td>
                         <td style="padding: 12px 15px;">{{ strtoupper($invoice->patient->first_name ?? '') }} {{ strtoupper($invoice->patient->last_name ?? '') }}</td>
-                        <td style="padding: 12px 15px;">₱{{ number_format($invoice->amount, 2) }}</td>
+                        <td style="padding: 12px 15px;">{{ $invoice->amount === null ? '-' : '₱' . number_format($invoice->amount, 2) }}</td>
                         <td style="padding: 12px 15px;">
                             <span style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; background: {{ $invoice->status === 'Paid' ? '#d4edda' : '#f8d7da' }}; color: {{ $invoice->status === 'Paid' ? '#155724' : '#721c24' }};">
                                 {{ $invoice->status }}
