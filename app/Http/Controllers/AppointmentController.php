@@ -14,6 +14,7 @@ class AppointmentController extends Controller
     public function index()
     {
         $appointments = Appointment::with(['patient', 'doctor', 'room'])->get();
+
         return view('appointments.index', compact('appointments'));
     }
 
@@ -22,6 +23,7 @@ class AppointmentController extends Controller
         $patients = Patient::all();
         $doctors = Doctor::all();
         $rooms = Room::orderBy('room_number')->get();
+
         return view('appointments.create', compact('patients', 'doctors', 'rooms'));
     }
 
@@ -63,6 +65,7 @@ class AppointmentController extends Controller
     public function show($id)
     {
         $appointment = Appointment::with(['patient', 'doctor', 'room'])->findOrFail($id);
+
         return view('appointments.show', compact('appointment'));
     }
 
@@ -72,6 +75,7 @@ class AppointmentController extends Controller
         $patients = Patient::all();
         $doctors = Doctor::all();
         $rooms = Room::orderBy('room_number')->get();
+
         return view('appointments.edit', compact('appointment', 'patients', 'doctors', 'rooms'));
     }
 
@@ -106,7 +110,6 @@ class AppointmentController extends Controller
             'appointment_date' => 'required|date',
             'status' => 'required|string|in:Scheduled,Completed,Cancelled',
             'notes' => 'nullable|string',
-            'amount' => 'nullable|numeric|min:0',
         ]);
 
         $originalStatus = $appointment->status;
@@ -116,7 +119,7 @@ class AppointmentController extends Controller
             Invoice::create([
                 'patient_id' => $appointment->patient_id,
                 'appointment_id' => $appointment->id,
-                'amount' => $request->input('amount'),
+                'amount' => null,
                 'status' => 'Unpaid',
                 'due_date' => now()->addDays(7),
             ]);

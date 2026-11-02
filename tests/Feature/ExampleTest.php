@@ -329,12 +329,24 @@ class ExampleTest extends TestCase
             ->assertOk()
             ->assertSee('name="room_id" value="' . $room->id . '"', false);
 
+        $this->get(route('appointments.create'))
+            ->assertOk()
+            ->assertSee('class="input-box"', false)
+            ->assertDontSee('name="amount"', false);
+
+        $this->get(route('appointments.edit', $appointment->id))
+            ->assertOk()
+            ->assertSee('class="input-box"', false)
+            ->assertSee('name="status"', false)
+            ->assertDontSee('name="amount"', false);
+
         $this->put(route('appointments.update', $appointment->id), [
             'patient_id' => $patient->id,
             'doctor_id' => $doctor->id,
             'room_id' => $room->id,
             'appointment_date' => '2026-11-10 09:00:00',
             'status' => 'Completed',
+            'amount' => 999,
         ])->assertRedirect(route('appointments.show', $appointment->id));
 
         $this->assertDatabaseHas('appointments', [

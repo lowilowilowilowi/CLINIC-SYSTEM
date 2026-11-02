@@ -16,7 +16,7 @@
 <div style="max-width: 600px; background: white; border: 2px solid #4a4c8c; padding: 24px; border-radius: 6px;">
     <form action="{{ route('appointments.store') }}" method="POST">
         @csrf
-        
+
         <input type="hidden" name="status" value="Scheduled">
 
         <div style="margin-bottom: 15px;">
@@ -50,13 +50,13 @@
         </div>
 
         <div style="margin-bottom: 15px;">
-            <label style="display: block; font-weight: bold; font-size: 14px; color: #4a4c8c; margin-bottom: 5px;">Appointment Date & Time</label>
-            <input type="datetime-local" name="appointment_date" required class="input-box" style="width: 100%;">
+            <label style="display: block; font-weight: bold; font-size: 14px; color: #4a4c8c; margin-bottom: 5px;">Appointment Date &amp; Time</label>
+            <input type="datetime-local" name="appointment_date" value="{{ old('appointment_date') }}" required class="input-box" style="width: 100%;">
         </div>
 
         <div style="margin-bottom: 20px;">
             <label style="display: block; font-weight: bold; font-size: 14px; color: #4a4c8c; margin-bottom: 5px;">Notes</label>
-            <textarea name="notes" class="input-box" style="width: 100%; height: 80px; resize: vertical;"></textarea>
+            <textarea name="notes" class="input-box" style="width: 100%; height: 80px; resize: vertical;">{{ old('notes') }}</textarea>
         </div>
 
         <div>
